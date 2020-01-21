@@ -8,11 +8,11 @@ import {Category} from './category.enum';
 })
 export class FirstComponent implements OnInit {
 
-  name: string = 'Yurii';
-  description: string = 'Shop For Yurii';
-  price: number = 100;
+  name = 'Yurii';
+  description = 'Shop For Yurii';
+  price = 100;
   category: Category;
-  isAvailable: boolean = true;
+  isAvailable = true;
   arr: number[] = [1, 2, 3, 4, 5];
   arrStr: string[] = ['a', 'b', 'c'];
 
