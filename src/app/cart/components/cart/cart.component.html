@@ -4,10 +4,11 @@
 <h3 *ngIf="isCartsEmpty; else cartsRef">Carts is empty</h3>
 
 <ng-template #cartsRef>
-  <h4>Carts:</h4>
+
+  <h4>Carts:<span (click)="clearCarts()">  || Clear carts </span></h4>
 
   <h4 *ngFor="let cart of carts">
-    {{ cart.id }} | {{ cart.name }}
+    <span>{{ cart.id }}</span> | <span>{{ cart.name }}</span>
   </h4>
 </ng-template>
 

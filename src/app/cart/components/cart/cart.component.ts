@@ -21,4 +21,7 @@ export class CartComponent implements OnInit, DoCheck {
     this.isCartsEmpty = !this.carts.length;
   }
 
+  clearCarts() {
+    this.cartService.clearCart();
+  }
 }
