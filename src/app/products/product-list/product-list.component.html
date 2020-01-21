@@ -1,8 +1,9 @@
 <p>product-list works!</p>
 
 
-<div>
+<div *ngIf="products">
   <div *ngFor="let product of products">
-    {{ product.id }} | {{ product.name }}
+    <h3>{{ product.id }} | {{ product.name }}</h3>
+    <button (click)="addToCart(product)">Buy</button>
   </div>
 </div>
