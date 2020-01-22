@@ -1,6 +1,9 @@
 <p>product-list works!</p>
 
-
+<!--
+  можно использовать для этой цели тег <ng-container></ng-container>
+  он не будет создавать дополнительный див
+-->
 <div *ngIf="products">
   <div *ngFor="let product of products">
     <h3>{{ product.id }} | {{ product.name }}</h3>
