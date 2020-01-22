@@ -10,6 +10,7 @@ export class CartService {
 
 
   addToCart(product) {
+    // тут мутация данных
     this.items.push(product);
     console.log('this.items', this.items);
   }
@@ -19,6 +20,7 @@ export class CartService {
   }
 
   clearCart() {
+    // а тут немутация данных, разные подходы
     this.items = [];
     return this.items;
   }

@@ -15,6 +15,7 @@ export class CartComponent implements OnInit, DoCheck {
   ngOnInit() {
   }
 
+  // в чем смысл использовать этот метод тут?
   ngDoCheck() {
     console.log('ngDoCheck');
     this.carts = this.cartService.getItems();
