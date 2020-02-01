@@ -1,17 +1,11 @@
-<p>cart works!</p>
+<div appHighlight>
+  <span>
+      {{product.name}}
+    [{{product.quantity}} x ${{product.price}} = <strong>
+    ${{product.quantity * product.price}}</strong>]
+  </span>
 
-
-<h3 *ngIf="isCartsEmpty; else cartsRef">Carts is empty</h3>
-
-<ng-template #cartsRef>
-
-  <h4>Carts:<span (click)="clearCarts()">  || Clear carts </span></h4>
-
-  <h4 *ngFor="let cart of carts">
-    <span>{{ cart.id }}</span> | <span>{{ cart.name }}</span>
-  </h4>
-</ng-template>
-
-
-<hr>
-<app-product-list></app-product-list>
+  <button (click)="onUpdateQuantity(product.id, '+')">+</button>
+  <button (click)="onUpdateQuantity(product.id, '-')">-</button>
+  <button (click)="onRemoveProduct(product.id)">x</button>
+</div>

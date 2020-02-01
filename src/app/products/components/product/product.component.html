@@ -1,0 +1,11 @@
+<div>
+  <ul *ngIf="product">
+    <li>id: {{product.id}}</li>
+    <li>name: {{product.name}}</li>
+    <li>price: {{product.price | currency}}</li>
+  </ul>
+  <button (click)="onBuy()"
+          [disabled]="!product.isAvailable"
+          type="button">
+    Buy</button>
+</div>

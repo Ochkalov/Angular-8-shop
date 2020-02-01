@@ -1,27 +1,37 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CartService} from '../../services/cart.service';
+
+interface CartItem {
+  id: number;
+  price: number;
+  name: string;
+  quantity: number;
+}
+
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.less']
 })
-export class CartComponent implements OnInit, DoCheck {
-  carts: any[] = [];
-  isCartsEmpty: boolean;
+export class CartComponent implements OnInit {
 
   constructor(private cartService: CartService ) { }
+
+  @Input() product: CartItem;
 
   ngOnInit() {
   }
 
-  ngDoCheck() {
-    console.log('ngDoCheck');
-    this.carts = this.cartService.getItems();
-    this.isCartsEmpty = !this.carts.length;
-  }
-
   clearCarts() {
     this.cartService.clearCart();
+  }
+
+  onUpdateQuantity(id: number, way: string) {
+    this.cartService.updateQuantity(id, way);
+  }
+
+  onRemoveProduct(id: number){
+    this.cartService.removeProduct(id);
   }
 }
