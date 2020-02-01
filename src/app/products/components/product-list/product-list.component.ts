@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ProductsService} from '../products.service';
-import {ProductModel} from '../models/product.model';
-import {CartService} from '../../cart/services/cart.service';
+import {ProductsService} from '../../services/products.service';
+import {ProductModel} from '../../models/product.model';
+import {CartService} from '../../../cart/services/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -21,7 +21,7 @@ export class ProductListComponent implements OnInit {
   }
 
 
-  addToCart(product: ProductModel) {
+  onAddProductToCart(product: ProductModel): void {
     this.cartService.addToCart(product);
   }
 }
