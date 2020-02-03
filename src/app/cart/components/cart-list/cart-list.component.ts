@@ -18,6 +18,7 @@ export class CartListComponent implements OnInit, DoCheck {
 
   }
 
+  // Зачем этот хук, сделайте гетер и все будет обновляться
   ngDoCheck() {
     this.products = this.cartService.products;
     this.totalPrice = this.cartService.totalPrice();
