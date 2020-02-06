@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {CartService} from '../../services/cart.service';
+import {LocalStorageService} from '../../../core/services/local-storage.service';
 
 interface CartItem {
   id: number;
@@ -14,13 +15,17 @@ interface CartItem {
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.less']
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
 
-  constructor(private cartService: CartService ) { }
+  constructor(
+    private cartService: CartService,
+    public localStorageService: LocalStorageService,
+  ) { }
 
   @Input() product: CartItem;
 
   ngOnInit() {
+    this.localStorageService.setItem('lastAddedProduct', this.product);
   }
 
   clearCarts() {
@@ -33,5 +38,12 @@ export class CartComponent implements OnInit {
 
   onRemoveProduct(id: number){
     this.cartService.removeProduct(id);
+  }
+
+  ngOnDestroy() {
+    const storedLastAddedProduct = this.localStorageService.getItem('lastAddedProduct');
+    if (storedLastAddedProduct && storedLastAddedProduct.id === this.product.id) {
+      this.localStorageService.removeItem('lastAddedProduct');
+    }
   }
 }

@@ -1,5 +1,15 @@
 # Create functionality
 
+### Home Task 3
+
+- Add `updateTotalQuantity`, `updateTotals` to CartService;
+- Add `LocalStorageService` with (`setItem, getItem and removeItem` methods);
+- Create `ConfigOptionsService`;
+- Create `ConstantService` and register by `useValue`;
+- Add to `AboutComponent` check work by console.log;
+- Add `FormattedDirective` for change style from directive.
+
+
 ### Home Task 2
 
 - Add OnPush strategy to components;
