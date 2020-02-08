@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {ConstantService} from './services/constant.service';
 import {Generated, GenerateFactory, GeneratorService} from './services/generator';
 import {ConfigOptionsService} from './services/config-options.service';
+import {SharedModule} from '../shared/shared.module';
 
 const constants = new ConstantService({ App: 'Shop', Ver: '1.0' });
 
@@ -15,7 +16,7 @@ const config = new ConfigOptionsService({
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    SharedModule
   ],
   providers: [
     GeneratorService,

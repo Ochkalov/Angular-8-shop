@@ -1,0 +1,12 @@
+<div appHighlight>
+  <p>{{ product.name | uppercase }}</p>
+
+  <span> Price: {{ product.price | currency }}</span>
+  <p>Count: {{ product.count || 1 }}</p>
+
+
+  <button (click)="onDecreaseCount(product.count)"
+          [disabled]="product.count === 0">-</button>
+  <button (click)="onIncreaseCount(product.count)">+</button>
+  <button (click)="onDelete()">x</button>
+</div>

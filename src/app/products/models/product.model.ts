@@ -1,8 +1,22 @@
+export interface IProductModel {
+  name: string;
+  price: number;
+  date: string;
+  description: string;
+  isAvailable: boolean;
+}
+
 export class ProductModel {
-  constructor(
-    public id: number,
-    public name: string,
-    public isAvailable: boolean,
-    public price: number
-  ) { }
+  id: number;
+  name: string;
+  price: number;
+  date: string;
+  description: string;
+  isAvailable: boolean;
+
+  constructor(product: IProductModel) {
+    Object.assign(this, product);
+
+    this.id = Math.round(Math.random() * +new Date());
+  }
 }

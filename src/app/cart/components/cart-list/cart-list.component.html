@@ -1,17 +1,6 @@
-<div *ngIf="products.length; else noProducts">
-  <h3>Cart:</h3>
-
-  <app-cart
-    *ngFor="let product of products"
+<app-cart-item
+    *ngFor="let product of cartProducts"
     [product]="product"
-  ></app-cart>
-
-  <h4>Total: {{ totalPrice }}</h4>
-</div>
-<ng-template #noProducts>
-  <span appFormatted
-     color="red"
-  >
-    Your card is empty.
-  </span>
-</ng-template>
+    (delete)="onDelete(product.id)"
+    (changeCount)="onChangeCount($event, product.id)"
+></app-cart-item>
