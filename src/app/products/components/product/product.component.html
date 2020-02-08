@@ -3,6 +3,7 @@
     <li>id: {{product.id}}</li>
     <li>name: {{product.name}}</li>
     <li>price: {{product.price | currency}}</li>
+    <li>date: {{product.date | date : 'short'}}</li>
   </ul>
   <button (click)="onBuy()"
           [disabled]="!product.isAvailable"

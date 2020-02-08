@@ -1,82 +1,85 @@
 import { Injectable } from '@angular/core';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {CartProductModel} from '../models/cart.model';
+import {first, map, withLatestFrom} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  products: Array<any> = [];
-  totalPrice = 0;
-  totalQuantity = 0;
+  private cartProductsSink: BehaviorSubject<CartProductModel[]> = new BehaviorSubject([]);
 
-  constructor() { }
-
-// TODO: тип параметра можео задать, например так Partial<ProductModel>
-  addToCart(product: { id: number, name: string, price: number }) {
-    this.products.find(item => item.id === product.id)
-      ? this.updateQuantity(product.id)
-      // TODO: мутирование
-      : this.products.push({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        quantity: 1,
-      });
-    this.updateTotals();
+  get cartProducts$(): Observable<CartProductModel[]> {
+    return this.cartProductsSink.asObservable();
   }
 
-  removeProduct(id: number) {
-    // TODO: НЕмутирование
-    this.products = this.products.filter(item => item.id !== id);
-    this.updateTotals();
-  }
+  totalCount$ = this.cartProducts$
+    .pipe(
+      map((products: CartProductModel[]) => {
+        return products.reduce((total, product) => total + product.count, 0);
+      })
+    );
 
-  updateQuantity(id: number, way?: string): void {
-    switch (way) {
-      case '-':
-        // TODO: НЕмутирование
-        this.products = this.products.map(item => {
-          if (item.id === id && item.quantity > 1) {
-            item.quantity -= 1;
+  totalAmount$ = this.cartProducts$
+    .pipe(
+      map((products: CartProductModel[]) => products.reduce((total, product) => {
+          return total + product.count * product.price;
+        }, 0)
+      )
+    );
+
+  addProduct(product: CartProductModel): void {
+    of(product)
+      .pipe(
+        withLatestFrom(this.cartProducts$),
+        map(([newProduct, products]) => {
+            const index = products
+              .findIndex(item => item.id === newProduct.id);
+
+            if (index !== -1) {
+              const newProducts = [...products];
+
+              newProducts[index] = { ...newProducts[index], count: ++newProducts[index].count };
+              return newProducts;
+            }
+
+            return [...products, {...newProduct, count: 1}];
           }
-          return item;
-        });
-        break;
-      case '+':
-      default:
-        // TODO: НЕмутирование
-        this.products = this.products.map(item => {
-          if (item.id === id) {
-            item.quantity += 1;
-          }
-          return item;
-        });
-    }
-    this.updateTotals();
+        ),
+      ).subscribe(products => this.updateCartProducts(products as CartProductModel[]));
   }
 
-  updateTotalQuantity() {
-    this.totalQuantity = this.products.reduce((acc, cur) => acc += cur.quantity, 0);
+  deleteProduct(id: number): void {
+    of(id)
+      .pipe(
+        withLatestFrom(this.cartProducts$),
+        map(([productId, products]) => products
+          .filter(product => product.id !== productId))
+      ).subscribe(products => this.updateCartProducts(products));
   }
 
-  updateTotals() {
-    this.getTotalPrice();
-    this.updateTotalQuantity();
+  deleteAll(): void {
+    this.updateCartProducts([]);
   }
 
-  cartProducts() {
-    return this.products;
+  changeProductCount(id: number, count: number): void {
+    of(id)
+      .pipe(
+        withLatestFrom(this.cartProductsSink),
+        map(([ , products]) => {
+          const newProducts = [...products];
+
+          newProducts
+            .find(product => product.id === id)
+            .count = count;
+
+          return newProducts;
+        }),
+        first()
+      ).subscribe((products) => this.updateCartProducts(products));
   }
 
-  clearCart() {
-    // TODO: НЕмутирование
-    this.products = [];
-    this.totalPrice = 0;
-    this.totalQuantity = 0;
-
-    return this.products;
-  }
-
-  getTotalPrice() {
-    return this.products.reduce((acc, cur) => acc += cur.price * cur.quantity, 0);
+  private updateCartProducts(products: CartProductModel[]): void {
+    this.cartProductsSink.next(products);
   }
 }

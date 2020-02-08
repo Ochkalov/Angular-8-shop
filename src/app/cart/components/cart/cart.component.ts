@@ -1,49 +1,74 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {CartService} from '../../services/cart.service';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {LocalStorageService} from '../../../core/services/local-storage.service';
+import {CartProductModel} from '../../models/cart.model';
+import {Observable} from 'rxjs';
+import {CartService} from '../../services/cart.service';
 
-interface CartItem {
-  id: number;
-  price: number;
-  name: string;
-  quantity: number;
+
+export enum Order {
+  ASC,
+  DESC
 }
+
+export const OrderByOptions: { value: Order, label: string }[] = [{
+  label: 'ASC',
+  value: Order.ASC
+}, {
+  label: 'DESC',
+  value: Order.DESC
+}];
 
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.less']
+  styleUrls: ['./cart.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CartComponent implements OnInit, OnDestroy {
+export class CartComponent implements OnInit {
+  cartProducts$: Observable<CartProductModel[]>;
+  totalAmount$: Observable<number>;
+  totalCount$: Observable<number>;
 
-  constructor(
-    private cartService: CartService,
-    public localStorageService: LocalStorageService,
-  ) { }
+  Order = Order;
+  orderBy: { desc: boolean; field: string } = {
+    desc: true,
+    field: 'price'
+  };
+  orderByOptions = OrderByOptions;
+  productOptions: { value: string }[] = [{
+    value: 'price'
+  }, {
+    value: 'name'
+  }, {
+    value: 'count'
+  }];
 
-  @Input() product: CartItem;
+  constructor(private cartService: CartService) { }
 
   ngOnInit() {
-    this.localStorageService.setItem('lastAddedProduct', this.product);
+    this.cartProducts$ = this.cartService.cartProducts$;
+    this.totalCount$ = this.cartService.totalCount$;
+    this.totalAmount$ = this.cartService.totalAmount$;
   }
 
-  clearCarts() {
-    this.cartService.clearCart();
+  onDeleteProductFromCart(id: number): void {
+    this.cartService.deleteProduct(id);
   }
 
-  onUpdateQuantity(id: number, way: string) {
-    this.cartService.updateQuantity(id, way);
+  onChangeCount({ count, id }): void {
+    this.cartService.changeProductCount(id, count);
   }
 
-  onRemoveProduct(id: number){
-    this.cartService.removeProduct(id);
+  onClear(): void {
+    this.cartService.deleteAll();
   }
 
-  ngOnDestroy() {
-    const storedLastAddedProduct = this.localStorageService.getItem('lastAddedProduct');
-    if (storedLastAddedProduct && storedLastAddedProduct.id === this.product.id) {
-      this.localStorageService.removeItem('lastAddedProduct');
-    }
+  onOrderByChanged(value: Order): void {
+    this.orderBy = {...this.orderBy, desc: !!(Number(value)) };
+  }
+
+  onFieldNameChanged(value: string): void {
+    this.orderBy = { ...this.orderBy, field: value };
   }
 }

@@ -1,5 +1,9 @@
 # Create functionality
 
+### Home Task 4
+
+- Add pipe to `CartComponent`, `CartItemComponent`, `ProductComponent`, `ProductListComponent` from template
+
 ### Home Task 3
 
 - Add `updateTotalQuantity`, `updateTotals` to CartService;

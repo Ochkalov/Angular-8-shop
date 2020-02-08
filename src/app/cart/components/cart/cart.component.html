@@ -1,11 +1,46 @@
-<div appHighlight>
-  <span>
-      {{product.name}}
-    [{{product.quantity}} x ${{product.price}} = <strong>
-    ${{product.quantity * product.price}}</strong>]
-  </span>
+<div *ngIf="(cartProducts$ | async).length; else noProducts">
+  <h3>Cart:</h3>
 
-  <button (click)="onUpdateQuantity(product.id, '+')">+</button>
-  <button (click)="onUpdateQuantity(product.id, '-')">-</button>
-  <button (click)="onRemoveProduct(product.id)">x</button>
+  <app-cart-list
+    [cartProducts]="cartProducts$ | async | orderBy : orderBy.field : orderBy.desc"
+    (delete)="onDeleteProductFromCart($event)"
+    (changeCount)="onChangeCount($event)"
+  ></app-cart-list>
+
+  <button
+    (click)="onClear()"
+  >Clear all</button>
+
+  <h4>
+    <span *ngIf="(totalCount$ | async) as totalCount">
+      You are selected {{ totalCount }}
+    </span>
+
+    <p>
+      Total amount: <span>{{ totalAmount$ | async | currency }}</span>
+    </p>
+
+  </h4>
+
+  <div>
+    <app-select-order
+      label="Order by:"
+      [initial]="orderBy.field"
+      [options]="productOptions"
+      (selected)="onFieldNameChanged($event)">
+    </app-select-order>
+
+    <app-select-order
+      [initial]="Order.DESC"
+      [options]="orderByOptions"
+      (selected)="onOrderByChanged($event)">
+    </app-select-order>
+  </div>
+
 </div>
+<ng-template #noProducts>
+  <span appFormatted
+        color="red">
+    Your card is empty.
+  </span>
+</ng-template>
