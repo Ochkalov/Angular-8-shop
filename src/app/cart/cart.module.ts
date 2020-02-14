@@ -11,8 +11,8 @@ import { CartItemComponent } from './components/cart-item/cart-item.component';
   declarations: [CartListComponent, CartComponent, CartItemComponent],
   exports: [
     CartComponent,
-    CartListComponent,
-    CartItemComponent
+    // CartListComponent, // можно сделать приватными
+    // CartItemComponent
   ],
   imports: [
     SharedModule

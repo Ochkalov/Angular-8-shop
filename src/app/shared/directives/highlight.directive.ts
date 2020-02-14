@@ -1,6 +1,6 @@
 import {Directive, HostBinding, HostListener} from '@angular/core';
 
-  @Directive({
+@Directive({
   selector: '[appHighlight]'
 })
 export class HighlightDirective {
