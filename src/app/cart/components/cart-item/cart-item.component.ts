@@ -27,6 +27,8 @@ export class CartItemComponent implements OnInit, OnDestroy {
     this.localStorageService.setItem('lastAddedProduct', this.product);
   }
 
+  // немного странное решение, когда для изменения количества передается текущее его значение
+  // мне кажется, что более логично передавать количество на которое надо изменить значение
   onIncreaseCount(count: number): void {
     this.changeCount.emit(++count);
   }

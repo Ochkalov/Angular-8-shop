@@ -5,13 +5,13 @@ import { FormattedDirective } from './directives/formatted.directive';
 import { OrderByPipe } from './pipes/order-by.pipe';
 import { SelectOrderComponent } from './components/select-order/select-order.component';
 
-
+const dirCompPipe = [HighlightDirective, FormattedDirective, OrderByPipe, SelectOrderComponent];
 
 @NgModule({
-  declarations: [HighlightDirective, FormattedDirective, OrderByPipe, SelectOrderComponent],
+  declarations: [...dirCompPipe],
   imports: [
     CommonModule
   ],
-  exports: [CommonModule, HighlightDirective, FormattedDirective, OrderByPipe, SelectOrderComponent]
+  exports: [CommonModule, ...dirCompPipe]
 })
 export class SharedModule { }

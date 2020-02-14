@@ -11,7 +11,7 @@ export class SelectOrderComponent implements OnInit {
   initial: string;
 
   @Input()
-  options: { value: string, label?: string }[];
+  options: { value: string, label?: string }[]; // не очень читается
 
   @Input()
   label: string;
