@@ -28,11 +28,11 @@ export class CartItemComponent implements OnInit, OnDestroy {
   }
 
   onIncreaseCount(count: number): void {
-    this.changeCount.emit(++count);
+    this.changeCount.emit(+1);
   }
 
   onDecreaseCount(count: number): void {
-    this.changeCount.emit(--count);
+    this.changeCount.emit(-1);
   }
 
   onDelete(): void {

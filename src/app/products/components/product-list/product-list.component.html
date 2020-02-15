@@ -2,6 +2,10 @@
   *ngFor="let product of (products$ | async)"
   [product]="product"
   (addToCart)="onAddProductToCart(product)">
+
+    <a [routerLink]="'/product/' + product.id">
+      View More
+    </a>
 </app-product>
 
 

@@ -1,0 +1,25 @@
+<form [formGroup]="loginForm"
+  (submit)="submit($event, loginForm.value)">
+  <h3>Login</h3>
+  <div>
+    <label for="name">Your name</label>
+    <input
+      id="name" placeholder="Enter name"
+      formControlName="login">
+    <div
+      *ngIf="serverErrors['login']">{{ serverErrors['login'] }}</div>
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input
+      type="password" id="password" placeholder="Password"
+      formControlName="password">
+    <div
+      *ngIf="serverErrors['password']">{{ serverErrors['password'] }}</div>
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="loginForm.invalid">Submit</button>
+</form>
+

@@ -1,0 +1,30 @@
+<form [formGroup]="productForm"
+      (submit)="submit(productForm.value)">
+  <div>
+    <label for="name">Name</label>
+    <input id="name" placeholder="Name" formControlName="name">
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <textarea
+      rows="5" id="description"
+      placeholder="Description" formControlName="description"></textarea>
+  </div>
+
+  <div>
+    <label for="price">Price</label>
+    <input type="number" id="price" placeholder="Price" formControlName="price">
+  </div>
+
+  <div>
+    <div>Is Available</div>
+    <input type="checkbox" id="isAvailable" formControlName="isAvailable">
+    <label for="isAvailable">
+      Yes
+    </label>
+  </div>
+  <button
+    type="submit"
+    [disabled]="productForm.invalid">{{ isCreatingMode ? 'Create' : 'Save' }}</button>
+</form>

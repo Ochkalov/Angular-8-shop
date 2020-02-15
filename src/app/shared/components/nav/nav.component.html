@@ -1,0 +1,32 @@
+<nav>
+  <ul>
+    <li routerLinkActive="active"
+        *ngFor="let route of routes">
+
+      <a [routerLink]="route.link"
+         *ngIf="!route.roles; else navLinkWithRoles">{{ route.label }} </a>
+
+      <ng-template #navLinkWithRoles>
+        <a [routerLink]="route.link">{{ route.label }} </a>
+      </ng-template>
+    </li>
+  </ul>
+
+  <span>
+          <button
+            *ngIf="isUserAuthorized$ | async; else loginBtn"
+            (click)="logout()">
+            logout
+          </button>
+
+
+          <ng-template #loginBtn>
+            <button
+              routerLink="auth/login">
+              login
+            </button>
+          </ng-template>
+        </span>
+</nav>
+
+<hr>

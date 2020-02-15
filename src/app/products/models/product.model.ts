@@ -1,4 +1,5 @@
 export interface IProductModel {
+  id: number;
   name: string;
   price: number;
   date: string;
@@ -17,6 +18,6 @@ export class ProductModel {
   constructor(product: IProductModel) {
     Object.assign(this, product);
 
-    this.id = Math.round(Math.random() * +new Date());
+    // this.id = Math.round(Math.random() * +new Date());
   }
 }

@@ -2,14 +2,16 @@ import {IProductModel} from '../models/product.model';
 
 export const products: IProductModel[] = [
   {
-  name: 'Avengers: Endgame',
-  price: 8.5,
-  date: 'Mon Oct 07 2019 16:00:58 GMT+0300',
+    id: 1,
+    name: 'Avengers: Endgame',
+    price: 8.5,
+    date: 'Mon Oct 07 2019 16:00:58 GMT+0300',
     // tslint:disable-next-line:max-line-length
-  description: 'After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos actions and restore balance to the universe.',
-  isAvailable: true
+    description: 'After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos actions and restore balance to the universe.',
+    isAvailable: true
   },
   {
+    id: 2,
     name: 'Black Widow',
     price: 4.5,
     date: 'Mon Oct 07 2020 10:00:58 GMT+0300',
@@ -17,6 +19,7 @@ export const products: IProductModel[] = [
     isAvailable: false
   },
   {
+    id: 3,
     name: 'Spider-Man: Far from Home ',
     price: 5,
     date: 'Mon Oct 08 2018 16:00:58 GMT+0300',
@@ -25,6 +28,7 @@ export const products: IProductModel[] = [
     isAvailable: true
   },
   {
+    id: 4,
     name: 'Captain Marvel',
     price: 6,
     date: 'Mon Oct 09 2017 19:00:58 GMT+0300',
@@ -33,6 +37,7 @@ export const products: IProductModel[] = [
     isAvailable: true
   },
   {
+    id: 5,
     name: 'Avengers: Infinity War',
     price: 8,
     date: 'Mon Oct 02 2016 14:00:58 GMT+0300',
@@ -40,4 +45,4 @@ export const products: IProductModel[] = [
     description: 'The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe.',
     isAvailable: true
   }
-  ];
+];

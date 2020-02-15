@@ -1,0 +1,6 @@
+<div *ngIf="product$ | async as product">
+  <app-product
+    [product]="product"
+    (addToCart)="onAddProductToCart(product)">
+  </app-product>
+</div>
