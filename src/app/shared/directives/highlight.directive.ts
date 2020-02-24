@@ -1,19 +1,23 @@
 import {Directive, HostBinding, HostListener} from '@angular/core';
 
-  @Directive({
+@Directive({
   selector: '[appHighlight]'
 })
 export class HighlightDirective {
 
-  constructor() { }
+  constructor() {}
 
   @HostBinding('style.background-color')
   private bg: string;
 
   @HostListener('mouseenter')
-  onMouseEnter() { this.bg = 'red'; }
+  onMouseEnter() {
+    this.bg = 'red';
+  }
 
   @HostListener('mouseleave')
-  onMouseLeave() { this.bg = 'green'; }
+  onMouseLeave() {
+    this.bg = 'green';
+  }
 
 }

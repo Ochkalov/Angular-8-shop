@@ -1,5 +1,16 @@
 # Create functionality
 
+### Home Task 5
+
+- Create products detail page;
+- Save cart products to localStorage;
+- Add `404` page.
+- Add routing to `app.module`;
+- Create `AdminModule`;
+- Create `Login` page, `AuthService`;
+- Create `ProductResolveGuard`, `AuthGuard`, and `RoleGuard`;
+- Add edit actions as admin;
+
 ### Home Task 4
 
 - Add pipe to `CartComponent`, `CartItemComponent`, `ProductComponent`, `ProductListComponent` from template

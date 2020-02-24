@@ -3,10 +3,13 @@
     <li>id: {{product.id}}</li>
     <li>name: {{product.name}}</li>
     <li>price: {{product.price | currency}}</li>
+    <li>description: {{product.description}}</li>
     <li>date: {{product.date | date : 'short'}}</li>
   </ul>
   <button (click)="onBuy()"
           [disabled]="!product.isAvailable"
           type="button">
     Buy</button>
+
+  <ng-content></ng-content>
 </div>

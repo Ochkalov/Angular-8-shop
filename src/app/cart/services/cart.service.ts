@@ -1,13 +1,20 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {CartProductModel} from '../models/cart.model';
 import {first, map, withLatestFrom} from 'rxjs/operators';
+import {IProductModel} from '../../products/models/product.model';
+import {LocalStorageService} from '../../core/services/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private cartProductsSink: BehaviorSubject<CartProductModel[]> = new BehaviorSubject([]);
+  private readonly STORAGE_KEY = 'cart';
+  private cartProductsSink: BehaviorSubject<CartProductModel[]> = new BehaviorSubject(this.getFromStorage());
+
+  constructor(
+    private localStorage: LocalStorageService
+  ) {}
 
   get cartProducts$(): Observable<CartProductModel[]> {
     return this.cartProductsSink.asObservable();
@@ -70,8 +77,8 @@ export class CartService {
           const newProducts = [...products];
 
           newProducts
-            .find(product => product.id === id)
-            .count = count;
+            .find((product: IProductModel) => product.id === id)
+            .count += count;
 
           return newProducts;
         }),
@@ -81,5 +88,10 @@ export class CartService {
 
   private updateCartProducts(products: CartProductModel[]): void {
     this.cartProductsSink.next(products);
+    this.localStorage.setItem(this.STORAGE_KEY, products);
+  }
+
+  private getFromStorage(): CartProductModel[] {
+    return this.localStorage.getItem(this.STORAGE_KEY) || [];
   }
 }

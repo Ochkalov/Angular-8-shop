@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {SharedModule} from '../shared/shared.module';
+import { CreateOrderComponent } from './components/create-order/create-order.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [CreateOrderComponent],
+  exports: [CreateOrderComponent],
   imports: [
     SharedModule
   ]

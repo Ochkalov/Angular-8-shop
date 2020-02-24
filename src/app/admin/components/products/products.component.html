@@ -1,0 +1,19 @@
+<ng-container *ngIf="products$ | async as products">
+  <ul
+      *ngIf="products && products.length; else noProducts">
+    <li *ngFor="let product of products, let inx = index">
+      <div>
+        {{ inx + 1 }}.
+        <i>{{ product.name }}</i>
+      </div>
+
+      {{ (product.price) | currency}}
+
+      <button [routerLink]="['../product/edit', product.id]">Edit</button>
+    </li>
+  </ul>
+
+  <ng-template #noProducts>
+    <div>There is no products yet.</div>
+  </ng-template>
+</ng-container>

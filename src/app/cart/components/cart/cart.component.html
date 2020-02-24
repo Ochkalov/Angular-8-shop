@@ -4,12 +4,12 @@
   <app-cart-list
     [cartProducts]="cartProducts$ | async | orderBy : orderBy.field : orderBy.desc"
     (delete)="onDeleteProductFromCart($event)"
-    (changeCount)="onChangeCount($event)"
-  ></app-cart-list>
+    (changeCount)="onChangeCount($event)"></app-cart-list>
 
   <button
-    (click)="onClear()"
-  >Clear all</button>
+    (click)="onClear()">Clear all</button>
+
+  <button [routerLink]="'/order'">Create order</button>
 
   <h4>
     <span *ngIf="(totalCount$ | async) as totalCount">
@@ -44,3 +44,6 @@
     Your card is empty.
   </span>
 </ng-template>
+
+
+<hr>
