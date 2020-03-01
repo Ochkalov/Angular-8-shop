@@ -4,6 +4,7 @@ import {ProductListComponent} from './components/product-list/product-list.compo
 import {SharedModule} from '../shared/shared.module';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import {RouterModule} from '@angular/router';
+import {HttpClientModule} from '@angular/common/http';
 
 
 
@@ -17,7 +18,9 @@ import {RouterModule} from '@angular/router';
     ProductListComponent,
   ],
   imports: [
-    SharedModule, RouterModule
+    SharedModule,
+    RouterModule,
+    HttpClientModule
   ]
 })
 export class ProductsModule { }

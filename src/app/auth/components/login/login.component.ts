@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
-import {catchError, first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +11,10 @@ import {catchError, first} from 'rxjs/operators';
 export class LoginComponent {
 
   loginForm: FormGroup = this.fb.group({
-    login: ['admin', Validators.required],
+    email: ['admin@gmail.com', [
+      Validators.required,
+      Validators.email
+    ]],
     password: ['admin', Validators.required]
   });
   serverErrors: { [key: string]: string } = {};
@@ -20,6 +22,7 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private cd: ChangeDetectorRef,
     private authService: AuthService
   ) {
   }
@@ -29,9 +32,10 @@ export class LoginComponent {
 
     this.serverErrors = {};
     this.authService.login(values)
-      .pipe(
-        first(),
-        catchError((err) => this.serverErrors = err)
-      ).subscribe(() => this.router.navigate(['/product-list']));
+      .then(() => this.router.navigate(['/product-list']))
+      .catch((error) => {
+        this.serverErrors = { ...error };
+        this.cd.detectChanges();
+      });
   }
 }

@@ -1,5 +1,11 @@
 # Create functionality
 
+### Home Task 6
+
+- Mock server with json-server "db/db.json";
+- TimingInterceptor added timing interceptor for "/products";
+- AppSettings;
+
 ### Home Task 5
 
 - Create products detail page;
