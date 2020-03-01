@@ -11,6 +11,16 @@ import {AboutComponent} from './layout/components/about/about.component';
 import {CoreModule} from './core/core.module';
 import {OrdersModule} from './orders/orders.module';
 import { PageNotFoundComponent } from './layout/components/page-not-found/page-not-found.component';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {TimingInterceptor} from './core/interceptors/timing.interceptor';
+
+const httpInterceptorProviders = [
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TimingInterceptor,
+    multi: true
+  }
+];
 
 @NgModule({
   declarations: [
@@ -27,7 +37,7 @@ import { PageNotFoundComponent } from './layout/components/page-not-found/page-n
     SharedModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   exports: [],
   bootstrap: [AppComponent]
 })

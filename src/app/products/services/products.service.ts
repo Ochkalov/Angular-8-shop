@@ -3,17 +3,21 @@ import {IProductModel, ProductModel} from '../models/product.model';
 import {Observable, of} from 'rxjs';
 import {products} from '../mocks/products.mock';
 import {map} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {ApiConfig} from '../../core/services/api-config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  private products: IProductModel[] = [ ...products ];
+  private readonly tasksUrl = ApiConfig.PRODUCTS_URL;
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   getProducts$(): Observable<ProductModel[]> {
-    return of(products)
+    return this.http.get(this.tasksUrl)
       .pipe(
         map((items: IProductModel[]) => {
           return items.map(product => new ProductModel(product));
@@ -22,22 +26,19 @@ export class ProductsService {
   }
 
   getProduct$(id: number): Observable<ProductModel> {
-    return of(this.products)
+    return this.http.get(this.tasksUrl + id)
       .pipe(
-        map((items: IProductModel[]) => items.find(product => product.id === id)),
-        map(product => new ProductModel(product))
+        map((product: IProductModel) => new ProductModel(product))
       );
   }
 
-  addProduct(product: IProductModel): void {
+  addProduct(product: IProductModel): Observable<object> {
     product.id = +new Date();
 
-    this.products.push(product);
+    return this.http.post(this.tasksUrl, product);
   }
 
-  editProduct(product: IProductModel): void {
-    const inx = this.products.findIndex(i => i.id === product.id);
-
-    this.products[inx] = { ...this.products[inx], ...product };
+  editProduct(product: IProductModel): Observable<object> {
+    return this.http.put(`${this.tasksUrl}${product.id}`, product);
   }
 }
