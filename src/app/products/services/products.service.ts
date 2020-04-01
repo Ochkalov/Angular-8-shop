@@ -32,13 +32,19 @@ export class ProductsService {
       );
   }
 
-  addProduct(product: IProductModel): Observable<object> {
+  addProduct(product: IProductModel): Observable<ProductModel> {
     product.id = +new Date();
 
-    return this.http.post(this.tasksUrl, product);
+    return this.http.post(this.tasksUrl, product)
+      .pipe(
+        map((res: IProductModel) => new ProductModel(res))
+      );
   }
 
-  editProduct(product: IProductModel): Observable<object> {
-    return this.http.put(`${this.tasksUrl}${product.id}`, product);
+  editProduct(product: IProductModel): Observable<ProductModel> {
+    return this.http.put(`${this.tasksUrl}${product.id}`, product)
+      .pipe(
+        map((res: IProductModel) => new ProductModel(res))
+      );
   }
 }

@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ProductsService} from '../../../products/services/products.service';
-import {filter, pluck} from 'rxjs/operators';
-import {IProductModel, ProductModel} from '../../../products/models/product.model';
-import {CanComponentDeactivate} from '../../../core/interfaces/can-component-deactivate';
-import {Observable} from 'rxjs';
-import {DialogService} from '../../../core/services/dialog.service';
-import {CanDeactivateGuard} from '../../../core/guards/can-deactivate.guard';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter, pluck } from 'rxjs/operators';
+import { IProductModel, ProductModel } from '../../../products/models/product.model';
+import { CanComponentDeactivate } from '../../../core/interfaces/can-component-deactivate';
+import { Observable } from 'rxjs';
+import { DialogService } from '../../../core/services/dialog.service';
+import { CanDeactivateGuard } from '../../../core/guards/can-deactivate.guard';
+import { Store} from '@ngrx/store';
+import { AppState} from '../../../core/store/app.state';
+import { addProduct, updateProduct } from '../../../core/store/products/products.actions';
 
 @Component({
   selector: 'app-product-form',
@@ -24,7 +26,7 @@ export class ProductFormComponent implements OnInit, CanDeactivateGuard {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private productsService: ProductsService,
+    private store: Store<AppState>,
     private dialogService: DialogService
   ) {
 
@@ -58,15 +60,14 @@ export class ProductFormComponent implements OnInit, CanDeactivateGuard {
     return this.dialogService.confirm('New product data will not be saved. Are you sure?');
   }
 
-  submit(value: IProductModel): void {
-    const source$ =
-      this.isCreatingMode
-        ? this.productsService.addProduct(value)
-        : this.productsService.editProduct({...this.product, ...value});
+  submit(product: IProductModel): void {
 
-    source$.subscribe(() => {
-      this.productForm.reset();
-      this.router.navigate(['./admin/products']);
-    });
+    this.store.dispatch(
+      this.isCreatingMode
+        ? addProduct({product})
+        : updateProduct({product: {...this.product, ...product}})
+    );
+
+    this.productForm.reset();
   }
 }

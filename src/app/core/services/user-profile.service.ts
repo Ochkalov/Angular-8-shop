@@ -46,4 +46,8 @@ export class UserProfileService {
 
     return settings.hasOwnProperty('roles') ? settings.roles : [];
   }
+
+  getUserId(): number {
+    return this.config.settings.id;
+  }
 }

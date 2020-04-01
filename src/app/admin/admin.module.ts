@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { OrdersComponent } from './components/orders/orders.component';
 import { ProductsComponent } from './components/products/products.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
-import {AdminComponent} from './components/admin/admin.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {AdminRoutingModule} from './admin-routing.module';
+import { AdminComponent } from './components/admin/admin.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminRoutingModule } from './admin-routing.module';
 
 const components = [
   AdminComponent,
@@ -20,6 +20,7 @@ const components = [
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     AdminRoutingModule
   ]
 })

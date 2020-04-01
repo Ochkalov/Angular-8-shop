@@ -1,5 +1,13 @@
 # Create functionality
 
+### Home Task 7
+
+- Add `State`;
+- Add `selectors`, `effects` and `reducers`;
+- Create `actions` using class and functions;
+- Add `ngrx/entities` for `products`
+
+
 ### Home Task 6
 
 - Mock server with json-server "db/db.json";

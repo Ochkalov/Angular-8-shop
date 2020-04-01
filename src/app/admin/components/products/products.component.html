@@ -1,6 +1,6 @@
 <ng-container *ngIf="products$ | async as products">
   <ul
-      *ngIf="products && products.length; else noProducts">
+      *ngIf="products.length; else noProducts">
     <li *ngFor="let product of products, let inx = index">
       <div>
         {{ inx + 1 }}.
@@ -14,6 +14,11 @@
   </ul>
 
   <ng-template #noProducts>
-    <div>There is no products yet.</div>
+    <div *ngIf="loaded$ | async;else loading">There is no products yet.</div>
   </ng-template>
 </ng-container>
+
+
+<ng-template #loading>
+  <h4>Loading...</h4>
+</ng-template>
