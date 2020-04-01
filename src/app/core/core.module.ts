@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {ConstantService} from './services/constant.service';
-import {Generated, GenerateFactory, GeneratorService} from './services/generator';
-import {ConfigOptionsService} from './services/config-options.service';
-import {SharedModule} from '../shared/shared.module';
-import {LocalStorageService} from './services/local-storage.service';
+import { ConstantService } from './services/constant.service';
+import { Generated, GenerateFactory, GeneratorService } from './services/generator';
+import { ConfigOptionsService } from './services/config-options.service';
+import { SharedModule } from '../shared/shared.module';
+import { LocalStorageService } from './services/local-storage.service';
+import { environment } from '../../environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { CoreStoreModule } from './store/core-store.module';
 
 const constants = new ConstantService({ App: 'Shop', Ver: '1.0' });
 
@@ -17,7 +19,10 @@ const config = new ConfigOptionsService({
 @NgModule({
   declarations: [],
   imports: [
-    SharedModule
+    SharedModule,
+    CoreStoreModule,
+
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [
     GeneratorService,

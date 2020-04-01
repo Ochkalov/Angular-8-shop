@@ -1,28 +1,34 @@
 import { Injectable } from '@angular/core';
-import {CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
+import {CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanActivate} from '@angular/router';
 import { Observable } from 'rxjs';
 import {AuthService} from '../../auth/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanLoad {
+export class AuthGuard implements CanLoad, CanActivate {
   constructor(
     private router: Router,
     private authService: AuthService,
   ) {
   }
 
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean  {
+    return this.isUserAuthorized(state.url);
+  }
+
   canLoad(
     route: Route,
     segments: UrlSegment[]
   ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.isUserAuthorized(route);
+    return this.isUserAuthorized(route.path);
   }
 
-  private isUserAuthorized(route: Route): boolean {
+  private isUserAuthorized(path: string): boolean {
     const authorized = this.authService.isLogin();
-    const isLoginPage = route.path.indexOf('auth') !== -1;
+    const isLoginPage = path.indexOf('auth') !== -1;
 
     if (!authorized && !isLoginPage) {
       this.router.navigate(['/auth/login']);

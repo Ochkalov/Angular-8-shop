@@ -1,8 +1,12 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {LocalStorageService} from '../../../core/services/local-storage.service';
-import {CartProductModel} from '../../models/cart.model';
-import {Observable} from 'rxjs';
-import {CartService} from '../../services/cart.service';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { CartProductModel } from '../../models/cart.model';
+import { combineLatest, Observable } from 'rxjs';
+import { CartService } from '../../services/cart.service';
+import { UserProfileService } from '../../../core/services/user-profile.service';
+import { first, map } from 'rxjs/operators';
+import { AppState } from '../../../core/store/app.state';
+import { Store } from '@ngrx/store';
+import { CreateOrder } from '../../../core/store/orders/orders.actions';
 
 
 export enum Order {
@@ -29,6 +33,7 @@ export class CartComponent implements OnInit {
   cartProducts$: Observable<CartProductModel[]>;
   totalAmount$: Observable<number>;
   totalCount$: Observable<number>;
+  userId$: Observable<number>;
 
   Order = Order;
   orderBy: { desc: boolean; field: string } = {
@@ -44,19 +49,28 @@ export class CartComponent implements OnInit {
     value: 'count'
   }];
 
-  constructor(private cartService: CartService) { }
+  constructor(
+    private store: Store<AppState>,
+    private cartService: CartService,
+    private profileService: UserProfileService
+  ) {
+  }
 
   ngOnInit() {
     this.cartProducts$ = this.cartService.cartProducts$;
     this.totalCount$ = this.cartService.totalCount$;
     this.totalAmount$ = this.cartService.totalAmount$;
+    this.userId$ = this.profileService.user$
+      .pipe(
+        map(user => user ? user.id : null)
+      );
   }
 
   onDeleteProductFromCart(id: number): void {
     this.cartService.deleteProduct(id);
   }
 
-  onChangeCount({ count, id }): void {
+  onChangeCount({count, id}): void {
     this.cartService.changeProductCount(id, count);
   }
 
@@ -65,10 +79,29 @@ export class CartComponent implements OnInit {
   }
 
   onOrderByChanged(value: Order): void {
-    this.orderBy = {...this.orderBy, desc: !!(Number(value)) };
+    this.orderBy = {...this.orderBy, desc: !!(Number(value))};
   }
 
   onFieldNameChanged(value: string): void {
-    this.orderBy = { ...this.orderBy, field: value };
+    this.orderBy = {...this.orderBy, field: value};
+  }
+
+  onCreateOrder(): void {
+    combineLatest(
+      this.cartProducts$,
+      this.totalAmount$,
+      this.userId$
+    ).pipe(
+      first()
+    ).subscribe(([products, totalAmount, userId]) => {
+      this.store.dispatch(new CreateOrder({
+        id: +new Date(),
+        products: products.map(p => p.id),
+        totalAmount,
+        userId
+      }));
+
+      this.onClear();
+    });
   }
 }

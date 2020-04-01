@@ -1,0 +1,21 @@
+<div *ngIf="ordersState$ | async as ordersState">
+  <ul *ngIf="!ordersState.loading; else loading">
+    <li *ngFor="let order of ordersState.data, let i = index">
+      {{ i + 1 }})
+      {{ order.products.length }} item
+      <ng-container *ngIf="order.products.length > 1">s</ng-container>,
+      {{ order.creationDate | date: 'short' }}
+
+      <div>
+        <span>{{ order.totalAmount | currency }}</span>
+        <span>{{ order.status }}</span>
+      </div>
+    </li>
+  </ul>
+
+  <ng-template #loading>
+    <div>Loading...</div>
+  </ng-template>
+
+  <div *ngIf="ordersState.error">{{ ordersState.error }}</div>
+</div>

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
-import {ProductModel} from '../../../products/models/product.model';
-import {ProductsService} from '../../../products/services/products.service';
+import { Observable } from 'rxjs';
+import { ProductModel } from '../../../products/models/product.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../core/store/app.state';
+import { getProductsLoaded, getProductsLoading, getProductsData } from '../../../core/store/products/products.selectors';
 
 @Component({
   selector: 'app-products',
@@ -10,12 +12,18 @@ import {ProductsService} from '../../../products/services/products.service';
 })
 export class ProductsComponent implements OnInit {
 
-  products$: Observable<ProductModel[]> = this.productsService.getProducts$();
+  products$: Observable<ProductModel[]>;
+  loading$: Observable<boolean>;
+  loaded$: Observable<boolean>;
 
   constructor(
-    private productsService: ProductsService
-  ) { }
+    private store: Store<AppState>
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.products$ = this.store.select(getProductsData);
+    this.loading$ = this.store.select(getProductsLoading);
+    this.loaded$ = this.store.select(getProductsLoaded);
+  }
 
 }

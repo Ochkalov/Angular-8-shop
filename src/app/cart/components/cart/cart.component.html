@@ -1,43 +1,48 @@
-<div *ngIf="(cartProducts$ | async).length; else noProducts">
-  <h3>Cart:</h3>
+<div *ngIf="cartProducts$ | async as cartProducts">
+  <ng-container *ngIf="cartProducts.length; else noProducts">
+    <h3>Cart:</h3>
 
-  <app-cart-list
-    [cartProducts]="cartProducts$ | async | orderBy : orderBy.field : orderBy.desc"
-    (delete)="onDeleteProductFromCart($event)"
-    (changeCount)="onChangeCount($event)"></app-cart-list>
+    <app-cart-list
+      [cartProducts]="cartProducts | orderBy : orderBy.field : orderBy.desc"
+      (delete)="onDeleteProductFromCart($event)"
+      (changeCount)="onChangeCount($event)"></app-cart-list>
 
-  <button
-    (click)="onClear()">Clear all</button>
+    <button
+      (click)="onClear()">Clear all</button>
 
-  <button [routerLink]="'/order'">Create order</button>
+    <button [disabled]="(userId$ | async) === null"
+            (click)="onCreateOrder()">Create order</button>
 
-  <h4>
+    <h4>
     <span *ngIf="(totalCount$ | async) as totalCount">
       You are selected {{ totalCount }}
     </span>
 
-    <p>
-      Total amount: <span>{{ totalAmount$ | async | currency }}</span>
-    </p>
+      <p>
+        Total amount: <span>{{ totalAmount$ | async | currency }}</span>
+      </p>
 
-  </h4>
+    </h4>
 
-  <div>
-    <app-select-order
-      label="Order by:"
-      [initial]="orderBy.field"
-      [options]="productOptions"
-      (selected)="onFieldNameChanged($event)">
-    </app-select-order>
+    <div>
+      <app-select-order
+        label="Order by:"
+        [initial]="orderBy.field"
+        [options]="productOptions"
+        (selected)="onFieldNameChanged($event)">
+      </app-select-order>
 
-    <app-select-order
-      [initial]="Order.DESC"
-      [options]="orderByOptions"
-      (selected)="onOrderByChanged($event)">
-    </app-select-order>
-  </div>
+      <app-select-order
+        [initial]="Order.DESC"
+        [options]="orderByOptions"
+        (selected)="onOrderByChanged($event)">
+      </app-select-order>
+    </div>
 
+  </ng-container>
 </div>
+
+
 <ng-template #noProducts>
   <span appFormatted
         color="red">
