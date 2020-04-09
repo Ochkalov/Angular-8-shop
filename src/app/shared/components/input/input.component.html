@@ -1,0 +1,24 @@
+<div>
+  <div>
+    <label [for]="id">{{ label }}</label>
+    <span *ngIf="control.hasError('required')">*required</span>
+  </div>
+
+  <ng-template #inputEl>
+    <input [id]="id"
+      [type]="type"
+      [placeholder]="placeholder"
+      [formControl]="control">
+  </ng-template>
+
+  <textarea
+    rows="4"
+    *ngIf="textarea; else inputEl"
+    [placeholder]="placeholder"
+    [formControl]="control">
+  </textarea>
+
+  <app-input-errors [control]="control">
+  </app-input-errors>
+</div>
+

@@ -5,6 +5,7 @@
     <label for="name">Your name</label>
     <input
       id="name" placeholder="Enter name"
+      appEmailValidator
       formControlName="email">
     <div
       *ngIf="serverErrors['email']">{{ serverErrors['email'] }}</div>

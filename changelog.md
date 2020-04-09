@@ -1,5 +1,12 @@
 # Create functionality
 
+### Home Task 8
+
+- Add `ProccessOrderComponent`;
+- Add `InputComponent` and `InputErrorsComponent`;
+- Add `EmailValidator`;
+- Add `CustomValidators`;
+
 ### Home Task 7
 
 - Add `State`;
