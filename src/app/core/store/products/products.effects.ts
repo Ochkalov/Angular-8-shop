@@ -30,6 +30,7 @@ export class ProductsEffects {
   updateProduct$ = createEffect(() => this.actions$
     .pipe(
       ofType(productsActions.updateProduct),
+      // использовать concatMap
       switchMap(({product}) => this.productsService.editProduct(product)),
       map(product => productsActions.updateProductSuccess({product})),
       catchError(() => of(productsActions.updateProductFailure({
@@ -40,6 +41,7 @@ export class ProductsEffects {
   addProduct$ = createEffect(() => this.actions$
     .pipe(
       ofType(productsActions.addProduct),
+      // использовать concatMap
       switchMap(({product}) => this.productsService.addProduct(product)),
       map(product => productsActions.addProductSuccess({product})),
       catchError(() => of(productsActions.addProductFailure({

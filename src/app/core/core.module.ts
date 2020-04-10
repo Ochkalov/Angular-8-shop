@@ -21,7 +21,7 @@ const config = new ConfigOptionsService({
   imports: [
     SharedModule,
     CoreStoreModule,
-
+// Желательно в одном модуле подключать все модули библиотеки, так проще ими управлять
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [
