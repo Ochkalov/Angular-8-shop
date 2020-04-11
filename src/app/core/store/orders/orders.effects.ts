@@ -60,7 +60,7 @@ export class OrdersEffects {
       OrdersActions.OrdersActionTypes.CreateOrderSuccess
     ),
     map(() => routerActions.go({
-        path: ['/orders']
+        path: ['/orders/process']
       })
     )));
 }

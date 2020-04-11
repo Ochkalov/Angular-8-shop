@@ -7,7 +7,6 @@ import {UserRole} from './core/models/role.enum';
 import {AuthGuard} from './core/guards/auth.guard';
 import {RoleGuard} from './core/guards/role.guard';
 import {PageNotFoundComponent} from './layout/components/page-not-found/page-not-found.component';
-import {OrderListComponent} from './orders/components/order-list/order-list.component';
 
 
 const routes: Routes = [
@@ -30,8 +29,8 @@ const routes: Routes = [
   },
   {
     path: 'orders',
-    canActivate: [AuthGuard],
-    component: OrderListComponent
+    canLoad: [AuthGuard],
+    loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule)
   },
   {
     path: 'auth',

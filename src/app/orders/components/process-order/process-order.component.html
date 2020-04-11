@@ -1,0 +1,63 @@
+<div>
+  <form [formGroup]="orderForm">
+    <app-input label="Name"
+      placeholder="Enter your name"
+      [control]="orderForm.get('name')">
+    </app-input>
+
+    <app-input
+      label="Surname"
+      placeholder="Enter your surname"
+      [control]="orderForm.get('surname')">
+    </app-input>
+
+
+    <app-input label="Email"
+      placeholder="E-mail address"
+      [control]="orderForm.get('email')">
+    </app-input>
+
+    <div>
+      <div>
+        <span>Phone</span>
+        <button (click)="onAddPhoneControl()">
+          Add one
+        </button>
+      </div>
+      <div *ngFor="let phoneControl of orderForm.get('phones').controls, let index = index">
+        <app-input type="tel"
+          [placeholder]="'Enter phone number ' + (index + 1)"
+          [control]="phoneControl"></app-input>
+
+        <button (click)="onDeletePhoneControl(index)">Delete
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <input id="pickup"
+        type="checkbox"
+        formControlName="pickup">
+      <label
+        for="pickup">Pickup</label>
+    </div>
+
+    <app-input label="Address"
+      placeholder="Your address"
+      [textarea]="true"
+      [control]="orderForm.get('address')"
+      *ngIf="!orderForm.get('pickup').value">
+    </app-input>
+
+    <div>
+      <button type="reset"
+        [disabled]="!orderForm.touched">Reset
+      </button>
+
+      <button type="submit"
+        [disabled]="orderForm.invalid"
+        (click)="onSubmit(orderForm.value)">Continue
+      </button>
+    </div>
+  </form>
+</div>

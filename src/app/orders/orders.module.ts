@@ -6,15 +6,20 @@ import { OrdersEffects } from '../core/store/orders/orders.effects';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { ProcessOrderComponent } from './components/process-order/process-order.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { OrdersRoutingModule } from './orders-routing.module';
 
 
 @NgModule({
-  declarations: [OrderListComponent],
+  declarations: [OrderListComponent, ProcessOrderComponent],
   exports: [OrderListComponent],
   imports: [
     SharedModule,
+    ReactiveFormsModule,
     StoreModule.forFeature(ordersFeatureKey, ordersReducer),
-    EffectsModule.forFeature([OrdersEffects])
+    EffectsModule.forFeature([OrdersEffects]),
+    OrdersRoutingModule
   ]
 })
 export class OrdersModule { }
