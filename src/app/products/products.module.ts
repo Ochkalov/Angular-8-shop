@@ -25,6 +25,7 @@ import { EffectsModule } from '@ngrx/effects';
   imports: [
     SharedModule,
     RouterModule,
+    // Обычно он в AppModule подключается
     HttpClientModule,
 
     StoreModule.forFeature(productsFeatureKey, productsReducer),
